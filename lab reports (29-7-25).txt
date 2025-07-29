@@ -1,0 +1,3 @@
+glut setup, how to create a glut project
+
+coordinates r moddhe triangle, star, point draw(1,5) 5 diff. colors
