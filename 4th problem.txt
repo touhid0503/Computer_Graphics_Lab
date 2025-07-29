@@ -1,0 +1,43 @@
+#include <windows.h>
+#include <GL/glut.h>
+#include <math.h>
+
+#define PI 3.14159265
+
+// Function to draw a filled 5-pointed star
+void drawFilledStar(float centerX, float centerY, float radiusOuter, float radiusInner) {
+    glBegin(GL_TRIANGLE_FAN); // Filled star using triangle fan
+    glVertex2f(centerX, centerY); // Center point of the star
+
+     for (int i = 0; i <= 10; i++) {
+        float angle = PI / 2 + i * PI / 5; // Calculate the angle for each point
+        float r = (i % 2 == 0) ? radiusOuter : radiusInner; // Alternate radius for outer and inner points
+        float x = centerX + r * cos(angle); // X coordinate of the point
+        float y = centerY + r * sin(angle); // Y coordinate of the point
+        glVertex2f(x, y); // Add this point as a vertex of the fan
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    // Draw the filled star at center (0.0, 0.0)
+    glColor3f(1.0, 1.0, 1.0);
+    drawFilledStar(0.0f, 0.0f, 0.5f, 0.2f); // centerX, centerY, outer radius, inner radius
+
+    glutSwapBuffers();
+}
+
+int main(int argc, char *argv[]) {
+    glutInit(&argc, argv);
+    glutInitWindowSize(640, 480);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutCreateWindow("Filled Star at Center");
+
+    glutDisplayFunc(display);
+
+    glutMainLoop();
+    return 0;
+}
