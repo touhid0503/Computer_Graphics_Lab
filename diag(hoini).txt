@@ -1,0 +1,56 @@
+#include<windows.h>
+#include <GL/glut.h>
+
+static void display(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_LINES);
+
+        glVertex2f(-1.0f, 0.0f);
+        glVertex2f(1.0f, 0.0f);
+
+
+        glVertex2f(0.0f, -1.0f);
+        glVertex2f(0.0f, 1.0f);
+    glEnd();
+    glPointSize(25.0);
+    glBegin(GL_POINTS);
+
+        glColor3f(1, 0, 0);
+        glVertex2f(0.2f, 0.8f);
+
+        glColor3f(0, 1, 0);
+        glVertex2f(0.8f, 0.1f);
+
+
+    glEnd();
+
+    glBegin(GL_POINTS);
+        for(float t=0.2f; t<=0.8f; t+=0.01f){
+            glVertex2f(t,t);
+        }
+    glEnd();
+
+
+
+    glutSwapBuffers();
+}
+
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitWindowSize(640,480);
+    glutInitWindowPosition(10,10);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+
+    glutCreateWindow("GLUT Shapes");
+
+
+    glutDisplayFunc(display);
+
+    glutMainLoop();
+
+    return EXIT_SUCCESS;
+}
