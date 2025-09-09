@@ -1,0 +1,184 @@
+#include <windows.h>
+#include <GL/glut.h>
+#include <cmath>
+
+void drawAxes()
+{
+    glColor3f(1.0, 1.0, 1.0);
+
+    glBegin(GL_LINES);
+    glVertex2f(-10.0f, 0.0f);
+    glVertex2f(10.0f, 0.0f);
+    glVertex2f(0.0f, -10.0f);
+    glVertex2f(0.0f, 10.0f);
+    glEnd();
+}
+
+void drawTriangle()
+{
+    glColor3f(0.0, 0.0, 1.0);
+
+    glBegin(GL_LINES);
+
+    //1
+    glVertex2f(-4.0f, 6.0f);
+    glVertex2f(-2.0f, 2.0f);
+
+    glVertex2f(-2.0f, 2.0f);
+    glVertex2f(-6.0f, 2.0f);
+
+    glVertex2f(-6.0f, 2.0f);
+    glVertex2f(-4.0f, 6.0f);
+
+    glColor3f(1.0, 0.0, 0.0);
+
+    glBegin(GL_LINES);
+
+    //2
+
+    glVertex2f(4.0f, -2.0f);
+    glVertex2f(2.0f, -6.0f);
+
+    glVertex2f(2.0f, -6.0f);
+    glVertex2f(6.0f, -6.0f);
+
+
+    glVertex2f(6.0f, -6.0f);
+    glVertex2f(4.0f, -2.0f);
+
+    glColor3f(1.0, 1.0, 0.0);
+
+    //3
+    glBegin(GL_LINES);
+
+    glVertex2f(-4.0f, -2.0f);
+    glVertex2f(-6.0f, -6.0f);
+
+    glVertex2f(-6.0f, -6.0f);
+    glVertex2f(-2.0f, -6.0f);
+
+    glVertex2f(-2.0f, -6.0f);
+    glVertex2f(-4.0f, -2.0f);
+
+    glColor3f(0.0, 1.0, 1.0);
+
+
+    //4
+
+    glBegin(GL_LINES);
+
+    glVertex2f(4.0f, 6.0f);
+    glVertex2f(2.0f, 2.0f);
+
+    glVertex2f(2.0f, 2.0f);
+    glVertex2f(6.0f, 2.0f);
+
+    glVertex2f(6.0f, 2.0f);
+    glVertex2f(4.0f, 6.0f);
+
+
+    glEnd();
+}
+
+void drawStar()
+{
+    glColor3f(1.0, 1.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex2f(6, -2);
+    glVertex2f(3, -8);
+    glVertex2f(6, -2);
+    glVertex2f(8, -8);
+    glVertex2f(3, -4);
+    glVertex2f(8, -4);
+    glVertex2f(3, -8);
+    glVertex2f(8, -4);
+    glVertex2f(8, -8);
+    glVertex2f(3, -4);
+    glEnd();
+}
+void drawRectangle(){
+    glBegin(GL_LINES);
+    glVertex2f(1, 2);
+    glVertex2f(3, 2);
+
+    glVertex2f(3, 2);
+    glVertex2f(3, 6);
+
+    glVertex2f(3, 6);
+    glVertex2f(1, 6);
+
+    glVertex2f(1, 6);
+    glVertex2f(1, 2);
+
+    glEnd();
+}
+void drawPoints()
+{
+    glPointSize(8.0);
+    glBegin(GL_POINTS);
+
+    glColor3f(1, 0, 0);
+    glVertex2f(-0.2f, -0.2f);
+
+    glColor3f(0, 1, 0);
+    glVertex2f(-0.2f, -0.4f);
+
+    glColor3f(0, 0, 1);
+    glVertex2f(-0.4f, -0.6f);
+
+    glColor3f(1, 1, 1);
+    glVertex2f(-0.5f, -0.5f);
+
+    glColor3f(1, 1, 0);
+    glVertex2f(-0.2f, -0.9f);
+
+    glEnd();
+}
+void letter(){
+    glColor3f(1.0, 1.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex2f(6,10);
+    glVertex2f(2, 2);
+    glVertex2f(6, 10);
+    glVertex2f(10, 2);
+    glVertex2f(4, 6);
+    glVertex2f(8, 6);
+
+    glEnd();
+}
+
+
+static void display(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    drawAxes();
+    //drawTriangle();
+    //drawStar();
+    //drawPoints();
+    //drawRectangle();
+    letter();
+    glutSwapBuffers();
+
+}
+
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitWindowSize(640,480);
+    glutInitWindowPosition(10,10);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+
+    glutCreateWindow("OpenGL Shapes Example");
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-10, 10, -10, 10);  // visible range
+    glMatrixMode(GL_MODELVIEW);
+
+    glutDisplayFunc(display);
+
+    glutMainLoop();
+
+    return EXIT_SUCCESS;
+}

@@ -1,0 +1,214 @@
+#include <GL/glut.h>
+#include <windows.h>
+#include <math.h>
+
+void horizontal()
+{
+    glBegin(GL_POINTS);
+    int Xstart = 0;
+    int Xend   = 60;
+    int Y      = 5;
+    int x = Xstart;
+    int y = Y;
+    while(x <= Xend)
+    {
+        glVertex2f(x, y);
+        x = x + 1;
+    }
+    glEnd();
+}
+
+void vertical()
+{
+    glBegin(GL_POINTS);
+    int Ystart = 0;
+    int Yend   = 60;
+    int X      = 5;
+    int y = Ystart;
+    int x = X;
+    while(y <= Yend)
+    {
+        glVertex2f(x, y);
+        y = y + 1;
+    }
+    glEnd();
+}
+
+
+void diagonal()
+{
+    glBegin(GL_POINTS);
+    int Xstart = 10;
+    int Xend   = 60;
+    int Ystart = 60;
+    int Yend   = 10;
+    float m =(float)(Yend-Ystart)/(Xend-Xstart);
+
+    int x = Xstart;
+    int y = Ystart;
+    if (m>0)
+    {
+        while(x <= Xend)
+        {
+            glVertex2i(x, y);
+            x = x + 1;
+            y = y + 1;
+        }
+    }
+    else
+    {
+        while(x <= Xend)
+        {
+            glVertex2i(x, y);
+            x = x + 1;
+            y = y - 1;
+        }
+    }
+    glEnd();
+}
+
+void dld()
+{
+    glBegin(GL_POINTS);
+
+    int Xstart = 30;
+    int Xend   = 80;
+    int Ystart = 30;
+    int Yend   = 60;
+
+    float m =(float)(Yend-Ystart)/(Xend-Xstart);
+    float b = Ystart-m*Xstart;
+
+    int x = Xstart;
+    float y = Ystart;
+
+    while(x <= Xend)
+    {
+        glVertex2i(x, (int)roundf(y));
+        x = x + 1;
+        y = m*x + b;
+    }
+    glEnd();
+}
+
+void dda()
+{
+    glBegin(GL_POINTS);
+
+    int Xstart = 30;
+    int Xend   = 80;
+    int Ystart = 30;
+    int Yend   = 90;
+
+    float m =(float)(Yend-Ystart)/(Xend-Xstart);
+    glVertex2i(Xstart,Ystart);
+
+    if (m<1)
+    {
+        float y = Ystart;
+        int x = Xstart + 1;
+
+        while(x <= Xend)
+        {
+            y = y + m;
+            glVertex2i(x, (int)roundf(y));
+            x = x + 1;
+        }
+    }
+    else
+    {
+        int y = Ystart + 1;
+        float x = Xstart;
+
+        while(y <= Yend)
+        {
+            x = x + (1/m);
+            glVertex2i((int)roundf(x), y);
+            y = y + 1;
+        }
+    }
+    glEnd();
+}
+
+void bresenham()
+{
+    glBegin(GL_POINTS);
+
+    int x1 = 30;
+    int x2 = 80;
+    int y1 = 30;
+    int y2 = 60;
+
+    int dx=x2-x1;
+    int dy=y2-y1;
+    int p=2*dy-dx;
+    int x=x1;
+    int y=y1;
+    while(x<=x2)
+    {
+        glVertex2i(x,y);
+        if(p<0)
+        {
+            p=p+2*dy;
+            x+=1;
+        }
+        else
+        {
+            p=p+2*dy-2*dx;
+            y+=1;
+            x+=1;
+        }
+    }
+
+    glEnd();
+}
+
+void coordinates()
+{
+    glBegin(GL_LINES);
+    glVertex2f(-100, 0);
+    glVertex2f(100, 0);
+    glVertex2f(0, 100);
+    glVertex2f(0, -100);
+    glEnd();
+}
+
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glColor3f(0.0, 1.0, 0.0);
+    coordinates();
+
+    glColor3f(1.0, 1.0, 1.0);
+    glPointSize(5.0);
+    horizontal();
+    //vertical();
+    //diagonal();
+    //dld();
+    //dda();
+    //bresenham();
+
+    glutSwapBuffers();
+}
+
+int main(int argc, char *argv[])
+{
+    glutInit(&argc, argv);
+    glutInitWindowSize(640, 480); //width, height
+    glutInitWindowPosition(100, 10); //width, height
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); //RGB color, double buffering, depth.
+
+    glutCreateWindow("Line Drawing Algorithm");
+    glClearColor(0.0, 0.0, 0.0, 1.0); //background color black
+
+    glMatrixMode(GL_PROJECTION);//Sets up the projection matrix
+    glLoadIdentity();//resets it.
+    // x=0-60 y=5
+    gluOrtho2D(-100, 100, -100, 100); //-x,x,-y,y
+    glMatrixMode(GL_MODELVIEW);//Switches back to modelview matrix
+
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
