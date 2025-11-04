@@ -3,6 +3,59 @@
 
 int r = 150;
 
+void dcd()
+{
+
+    glBegin(GL_POINTS);
+
+    for (int x = 0; x <= r; x++)
+    {
+        int y = (int)(sqrt(r * r - x * x));
+        glVertex2i(x, y);
+        glVertex2i(x, -y);
+        glVertex2i(-x, -y);
+        glVertex2i(-x, y);
+    }
+    glEnd();
+    glFlush();
+}
+
+void mcd()
+{
+    int x=0;
+    int y=r;
+    int d=1-r;
+    glBegin(GL_POINTS);
+
+    while(x<=y)
+    {
+        glVertex2i(x, y);
+        glVertex2i(y, x);
+        glVertex2i(y, -x);
+        glVertex2i(x, -y);
+        glVertex2i(-x, -y);
+        glVertex2i(-y, -x);
+        glVertex2i(-y, x);
+        glVertex2i(-x, y);
+
+        if (d<=0)
+        {
+            x+=1;
+            d+=2*x+3;
+
+        }
+        else
+        {
+            y-=1;
+            x+=1;
+            d+=2*x-2*y+5;
+        }
+    }
+
+    glEnd();
+    glFlush();
+}
+
 void translation()
 {
     float x1 = 4.0f, y1 = 6.0f;
@@ -84,59 +137,6 @@ void scaling()
 }
 
 
-
-void dcd()
-{
-
-    glBegin(GL_POINTS);
-
-    for (int x = 0; x <= r; x++)
-    {
-        int y = (int)(sqrt(r * r - x * x));
-        glVertex2i(x, y);
-        glVertex2i(x, -y);
-        glVertex2i(-x, -y);
-        glVertex2i(-x, y);
-    }
-    glEnd();
-    glFlush();
-}
-
-void mcd()
-{
-    int x=0;
-    int y=r;
-    int d=1-r;
-    glBegin(GL_POINTS);
-
-    while(x<=y)
-    {
-        glVertex2i(x, y);
-        glVertex2i(y, x);
-        glVertex2i(y, -x);
-        glVertex2i(x, -y);
-        glVertex2i(-x, -y);
-        glVertex2i(-y, -x);
-        glVertex2i(-y, x);
-        glVertex2i(-x, y);
-
-        if (d<=0)
-        {
-            x+=1;
-            d+=2*x+3;
-
-        }
-        else
-        {
-            y-=1;
-            x+=1;
-            d+=2*x-2*y+5;
-        }
-    }
-
-    glEnd();
-    glFlush();
-}
 
 void rotation()
 {
@@ -222,6 +222,7 @@ void reflection()
     glVertex2f(x1_t, y1_t);
     glEnd();
 
+    glColor3f(0, 0, 1);
     glBegin(GL_LINES);
     glVertex2f(x11_t, y11_t);
     glVertex2f(x22_t, y22_t);
@@ -329,4 +330,3 @@ int main(int argc, char** argv)
     glutMainLoop();
     return 0;
 }
-
